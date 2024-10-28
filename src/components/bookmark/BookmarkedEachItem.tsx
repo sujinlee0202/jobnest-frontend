@@ -8,7 +8,7 @@ const BookmarkedEachItem = ({bookmarkId, bookmarkURL,bookmarkTitle,bookmarkOgImg
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({id: bookmarkId});
  
   const ogImg = (bookmarkOgImg !== "이미지 없음") ? bookmarkOgImg : null;
-  console.log(bookmarkURL);
+  //console.log(bookmarkURL);
   return (
     <>    
       <div className="w-[180px] h-[180px] relative bg-cover bg-center border-slate-400 border-[1px] rounded-2xl"

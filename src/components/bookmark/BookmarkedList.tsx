@@ -81,16 +81,21 @@ const BookmarkedList = () => {
     //     console.log('Updated Grid Items:', filteredItems);
     // };
 
+    //https://23life.tistory.com/entry/DragDrop-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EC%97%90%EC%84%9C-%ED%81%B4%EB%A6%AD-%EC%9D%B4%EB%B2%A4%ED%8A%B8%EC%99%80-%EB%93%9C%EB%9E%98%EA%B7%B8-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EB%B6%84%EB%A6%AC%ED%95%98%EA%B8%B0
     // 드래그앤드랍
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
-        if (over && active.id !== over.id) {
+        const dragged = over && active.id !== over.id;
+        if (dragged) {
             setGridItem((prevItem) => {
                 const oldIdx = prevItem.findIndex((item) => item.bookmarkId === active.id);
                 const newIdx = prevItem.findIndex((item) => item.bookmarkId === over.id);
                 return arrayMove(prevItem, oldIdx, newIdx);
             });
-        }
+        } 
+        // else if (!dragged) {
+
+        // }
     };
 
     // 즐겨찾기 관리 모달창
