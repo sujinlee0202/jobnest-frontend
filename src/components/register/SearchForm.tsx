@@ -14,7 +14,7 @@ const SELECT_DATA = [
 
 const ERROR_MESSAGE_REQUIRED = "필수로 입력해야하는 필드입니다.";
 
-const SearchForm = ({ title }: { title: string }) => {
+const SearchForm = () => {
   const {
     handleSubmit,
     register,
@@ -36,34 +36,25 @@ const SearchForm = ({ title }: { title: string }) => {
 
   // 등기 또는 대장 검색
   const onSubmitSearchAddress: SubmitHandler<SearchRegisterInputs> = (data) => {
-    if (title === "등기/대장 열람") {
-      setLoading(true);
+    setLoading(true);
 
-      setSearchData({
-        address: data.address,
-        register_type: data.register_type,
+    setSearchData({
+      address: data.address,
+      register_type: data.register_type,
+    });
+
+    // API에서 주소 검색 후 받아온 data를 searchedRegister에 등록
+    searchRegister(data.address, 1)
+      .then((data: RegisterAPIType) => {
+        if (typeof data.result === "string") {
+          alert(data.result);
+        }
+
+        addSearchRegister(data, watch("register_type"));
+      })
+      .finally(() => {
+        setLoading(false);
       });
-
-      // API에서 주소 검색 후 받아온 data를 searchedRegister에 등록
-      searchRegister(data.address, 1)
-        .then((data: RegisterAPIType) => {
-          if (typeof data.result === "string") {
-            alert(data.result);
-          }
-
-          addSearchRegister(data, watch("register_type"));
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-
-    if (title === "등기/대장 열람내역") {
-      serSearchOpenRegisterData({
-        address: data.address,
-        register_type: data.register_type,
-      });
-    }
   };
 
   // resetField와 동시에 SearchOpenRegisterData 초기화
@@ -77,17 +68,19 @@ const SearchForm = ({ title }: { title: string }) => {
 
   return (
     <form
-      className='max-w-[1264px] h-[68px] flex items-center gap-4 mb-[60px] mx-5 p-3 bg-[#f7f7f8]'
+      className="max-w-[1264px] h-[68px] flex items-center gap-4 mb-[60px] mx-5 p-3 bg-[#f7f7f8]"
       onSubmit={handleSubmit(onSubmitSearchAddress)}
     >
       <SelectBox
         selectData={SELECT_DATA}
         register={register("register_type")}
+        className='w-32'
       ></SelectBox>
-      <div className='w-full h-full'>
+
+      <div className="w-full h-full">
         <Input
-          type='text'
-          placeholder='주소를 입력해주세요.'
+          type="text"
+          placeholder="주소를 입력해주세요."
           className={errors.address && "border-red-500"}
           register={register("address", {
             required: ERROR_MESSAGE_REQUIRED,
@@ -95,10 +88,11 @@ const SearchForm = ({ title }: { title: string }) => {
           resetField={() => handleResetField("address")}
         />
         {errors.address && (
-          <p className='text-sm mt-1 text-red-500'>{errors.address?.message}</p>
+          <p className="text-sm mt-1 text-red-500">{errors.address?.message}</p>
         )}
       </div>
-      <Button className='w-24 rounded-md'>검색</Button>
+
+      <Button className="w-24 rounded-md">검색</Button>
     </form>
   );
 };
