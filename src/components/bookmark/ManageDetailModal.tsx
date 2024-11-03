@@ -20,7 +20,7 @@ const ManageDetailModal = ({ closeModal }: manageModalInterface) => {
     [key: string]: boolean;
   }>({});
   const dropDownRef = useRef<HTMLDivElement>(null); // 드롭다운 감지할 ref
-  const [checkedItems, setCheckedItems] = useState<bookmarkDataInterface[]>([]);
+  // const [checkedItems, setCheckedItems] = useState<bookmarkDataInterface[]>([]);
 
   const bookmarkUrlRegex =
     /^(https?):\/\/(-\.)?([^\s\/?\.#-]+\.?)+(\/[^\s]*)?$/i;
@@ -88,13 +88,13 @@ const ManageDetailModal = ({ closeModal }: manageModalInterface) => {
     saveBookmarks(updatedBookmarks);
     console.log("chkBookmarkedOne", updatedBookmarks);
 
-    if (checked) {
-      setCheckedItems((prev) => [...prev, { ...item, checked }]);
-    } else {
-      setCheckedItems((prev) =>
-        prev.filter((i) => i.bookmarkId !== item.bookmarkId)
-      );
-    }
+    // if (checked) {
+    //   setCheckedItems((prev) => [...prev, { ...item, checked }]);
+    // } else {
+    //   setCheckedItems((prev) =>
+    //     prev.filter((i) => i.bookmarkId !== item.bookmarkId)
+    //   );
+    // }
     //handleCheckedItems(checkedItems);
   };
 
